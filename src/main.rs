@@ -1,7 +1,11 @@
 mod macros;
 mod api;
 use api::v1::auth::models::user::User;
-fn main() {
+mod lib;
+use lib::mongodb::{insert, find_all};
+
+#[tokio::main]
+async fn main() {
     let crate_name = env!("CARGO_PKG_NAME");
     println!("I am in crate `{}`", crate_name);
 
@@ -13,4 +17,7 @@ fn main() {
         20
     );
     println!("User: {:?}", user);
+
+    // insert("users".into(), user).await;
+    find_all::<User>("users".into()).await;
 }
