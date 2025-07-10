@@ -2,24 +2,20 @@
 #[macro_export]
 macro_rules! generate_mongodb_object {
     ($name:ident {$($field:ident: $type:ty),*}) => {
-        use mongodb::bson::oid::ObjectId;
-        use mongodb::bson::DateTime;
-        use serde::{Serialize, Deserialize};
-
-        #[derive(Debug, Serialize, Deserialize)]
+        #[derive(Debug, serde::Serialize, serde::Deserialize)]
         pub struct $name {
-            pub _id: ObjectId,
-            pub created_at: DateTime,
-            pub updated_at: DateTime,
+            pub _id: mongodb::bson::oid::ObjectId,
+            pub created_at: mongodb::bson::DateTime,
+            pub updated_at: mongodb::bson::DateTime,
             $(pub $field: $type),*
         }
 
         impl $name {
             pub fn new($($field: $type),*) -> Self {
                 Self {
-                    _id: ObjectId::new(),
-                    created_at: DateTime::now(),
-                    updated_at: DateTime::now(),
+                    _id: mongodb::bson::oid::ObjectId::new(),
+                    created_at: mongodb::bson::DateTime::now(),
+                    updated_at: mongodb::bson::DateTime::now(),
                     $($field: $field),*
                 }
             }
