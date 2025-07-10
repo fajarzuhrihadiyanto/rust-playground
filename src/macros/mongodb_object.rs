@@ -19,6 +19,15 @@ macro_rules! generate_mongodb_object {
                     $($field: $field),*
                 }
             }
+
+            pub fn update(&mut self, $(#[allow(unused_variables)] $field: Option<$type>),*) {
+                self.updated_at = mongodb::bson::DateTime::now();
+                $(
+                    if let Some($field) = $field {
+                        self.$field = $field;
+                    }
+                )*
+            }
         }
     }
 }
